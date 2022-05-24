@@ -1,0 +1,87 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  labels:
+    konvoy.d2iq.io/cni: calico
+    konvoy.d2iq.io/provider: preprovisioned
+  name: preprovisioned
+spec:
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: KubeadmControlPlane
+    name: preprovisioned-control-plane
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.konvoy.d2iq.io/v1alpha1
+    kind: PreprovisionedCluster
+    name: preprovisioned
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: KubeadmControlPlane
+metadata:
+  name: preprovisioned-control-plane
+spec:
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.konvoy.d2iq.io/v1alpha1
+      kind: PreprovisionedMachineTemplate
+      name: preprovisioned-control-plane
+  kubeadmConfigSpec:
+    initConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          cloud-provider: ''
+          volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+    clusterConfiguration:
+      apiServer:
+        extraArgs:
+          cloud-provider: ''
+      controllerManager:
+        extraArgs:
+          cloud-provider: ''
+          flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+      networking:
+        podSubnet: 192.168.0.0/16
+    joinConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          cloud-provider: ''
+          volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+  replicas: 3
+  version: 1.21.3
+---
+apiVersion: infrastructure.cluster.konvoy.d2iq.io/v1alpha1
+kind: PreprovisionedCluster
+metadata:
+  name: preprovisioned
+spec:
+  controlPlaneEndpoint:
+    host: $KUBE_APISERVER_ADDRESS
+    port: 6443
+---
+apiVersion: infrastructure.cluster.konvoy.d2iq.io/v1alpha1
+kind: PreprovisionedMachineTemplate
+metadata:
+  name: preprovisioned-control-plane
+spec:
+  template:
+    spec:
+      inventoryRef:
+        name: preprovisioned-control-plane-inventory
+        namespace: default
+---
+apiVersion: infrastructure.cluster.konvoy.d2iq.io/v1alpha1
+kind: PreprovisionedInventory
+metadata:
+  name: preprovisioned-control-plane-inventory
+spec:
+  hosts:
+  - address: $CONTROL_PLANE_1_ADDRESS
+  - address: $CONTROL_PLANE_2_ADDRESS
+  - address: $CONTROL_PLANE_3_ADDRESS
+  sshConfig:
+    port: 22
+    user: core
+    privateKeyRef:
+      name: preprovisioned-ssh
+      namespace: default
+
