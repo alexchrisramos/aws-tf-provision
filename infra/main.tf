@@ -170,9 +170,6 @@ resource "aws_instance" "control_plane" {
   availability_zone           = var.aws_availability_zones[0]
   source_dest_check           = "false"
   associate_public_ip_address = "true"
-  root_block_device {
-    volume_size = 100
-  }
 
   tags = var.tags
 
@@ -201,9 +198,7 @@ resource "aws_instance" "worker" {
   availability_zone           = var.aws_availability_zones[0]
   source_dest_check           = "false"
   associate_public_ip_address = "true"
-  root_block_device {
-    volume_size = 100
-  }
+
   tags = var.tags
 
   provisioner "remote-exec" {
