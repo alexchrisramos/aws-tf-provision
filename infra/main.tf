@@ -244,7 +244,7 @@ resource "aws_instance" "extra_worker" {
   root_block_device {
     volume_size = var.root_volume_size
   }
-  
+
   provisioner "remote-exec" {
     inline = [
       "echo ok"
@@ -300,6 +300,10 @@ resource "aws_elb" "konvoy_control_plane" {
   instances = aws_instance.control_plane.*.id
 
   tags = var.tags
+}
+
+output "VPC's CIDR" {
+  value = aws_vpc.konvoy_vpc.cidr_block
 }
 
 output "kube_apiserver_address" {
