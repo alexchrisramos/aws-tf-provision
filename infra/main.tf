@@ -61,6 +61,10 @@ variable "extra_worker_instance_type" {
   default = "m5.2xlarge"
 }
 
+variable "root_volume_size" {
+  description = "Instance root volume size"
+  default = 100
+}
 
 variable "ssh_username" {
   description = "The user for connecting to the instance over ssh"
@@ -173,6 +177,10 @@ resource "aws_instance" "control_plane" {
 
   tags = var.tags
 
+  root_block_device {
+    volume_size = var.root_volume_size
+  }
+
   provisioner "remote-exec" {
     inline = [
       "echo ok"
@@ -200,6 +208,10 @@ resource "aws_instance" "worker" {
   associate_public_ip_address = "true"
 
   tags = var.tags
+
+  root_block_device {
+    volume_size = var.root_volume_size
+  }
 
   provisioner "remote-exec" {
     inline = [
@@ -229,6 +241,10 @@ resource "aws_instance" "extra_worker" {
 
   tags = var.tags
 
+  root_block_device {
+    volume_size = var.root_volume_size
+  }
+  
   provisioner "remote-exec" {
     inline = [
       "echo ok"
