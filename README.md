@@ -1,27 +1,26 @@
-#tf to provision cluster in aws
-#from https://github.com/mesosphere/cluster-api-provider-preprovisioned
+tf to provision cluster in aws
+from https://github.com/mesosphere/cluster-api-provider-preprovisioned
+ansible c/o Pogz
 
-#aws cli credentials
-eval "$(maws login 337834004759_Mesosphere-PowerUser)"
-AWS_PROFILE=337834004759_Mesosphere-PowerUser
+# Set your aws cli credentials
 
-#instruction below is same on instruction in the github repo
+# Set the TF variables
+export TF_VAR_tags='{"owner":'\"$(whoami)\"',"expiration":"16h"}'
+export TF_VAR_worker_count=1
+export TF_VAR_extra_worker_count=0
+export TF_VAR_node_ami=ami-0b52d4ef0c06bb1ac
+export TF_VAR_ssh_key_name=<yourKeyPair>
+export TF_VAR_ssh_username=centos
+export TF_VAR_worker_instance_type=m5.2xlarge
+export TF_VAR_root_volume_size=200
+export mykeypair=<yourKeyPair>.pem
 
-export TF_VAR_tags='{"owner":'\"$(whoami)\"',"expiration":"10h"}'
+# set ssh agent
+eval `ssh-agent`
+ssh-add ${mykeypair}
+ssh-add -l
 
-export TF_VAR_node_ami=ami-0fe1f6c5052e9fc01
-export TF_VAR_ssh_key_name=alex-keypair
-
-#deploy
+# Apply
 terraform -chdir=infra/ init
+terraform -chdir=infra/ plan
 terraform -chdir=infra/ apply -auto-approve
-
-export TF_VAR_node_ami=ami-000d6375f955d3d80
-
-export TF_VAR_ssh_key_name=alex-keypair
-
-#deploy
-
-terraform -chdir=deploy/infra init
-
-terraform -chdir=deploy/infra apply -auto-approve
