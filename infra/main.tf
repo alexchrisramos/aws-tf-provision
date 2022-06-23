@@ -302,7 +302,7 @@ resource "aws_elb" "konvoy_control_plane" {
   tags = var.tags
 }
 
-output "VPC's CIDR" {
+output "vpc_cidr" {
   value = aws_vpc.konvoy_vpc.cidr_block
 }
 
