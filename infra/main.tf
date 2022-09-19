@@ -36,6 +36,14 @@ variable "node_ami" {
   description = "The AMI for the cluster nodes"
 }
 
+variable "bastion_ami" {
+  description = "The AMI for the cluster nodes"
+}
+
+variable "registry_ami" {
+  description = "The AMI for the cluster nodes"
+}
+
 variable "control_plane_instance_type" {
   description = "The instance type for the control-plane nodes"
   default = "m5.2xlarge"
@@ -46,19 +54,36 @@ variable "worker_instance_type" {
   default = "m5.2xlarge"
 }
 
+variable "bastion_instance_type" {
+  description = "The instance type for the worker nodes"
+  default = "t2.medium"
+}
+
+variable "registry_instance_type" {
+  description = "The instance type for the registry host"
+  default = "t2.medium"
+}
+
+
+variable "controlplane_count" {
+  description = "The number of worker nodes"
+  default = 3
+}
+
+
 variable "worker_count" {
   description = "The number of worker nodes"
   default = 1
 }
 
-variable "extra_worker_count" {
-  description = "The number of worker nodes"
+variable "bastion_host_count" {
+  description = "The number of bastion hosts"
   default = 0
 }
 
-variable "extra_worker_instance_type" {
-  description = "The instance type for the worker nodes"
-  default = "m5.2xlarge"
+variable "registry_host_count" {
+  description = "The number of bastion hosts"
+  default = 0
 }
 
 variable "root_volume_size" {
@@ -99,21 +124,21 @@ resource "aws_subnet" "konvoy_public" {
   tags = var.tags
 }
 
-resource "aws_route_table" "konvoy_public_rt" {
-  vpc_id = aws_vpc.konvoy_vpc.id
+  resource "aws_route_table" "konvoy_public_rt" {
+    vpc_id = aws_vpc.konvoy_vpc.id
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.konvoy_gateway.id
+    route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.konvoy_gateway.id
+    }
+
+    tags = var.tags
   }
 
-  tags = var.tags
-}
-
-resource "aws_route_table_association" "konvoy_public_rta" {
-  subnet_id      = aws_subnet.konvoy_public.id
-  route_table_id = aws_route_table.konvoy_public_rt.id
-}
+  resource "aws_route_table_association" "konvoy_public_rta" {
+    subnet_id      = aws_subnet.konvoy_public.id
+    route_table_id = aws_route_table.konvoy_public_rt.id
+  }
 
 resource "aws_security_group" "konvoy_ssh" {
   description = "Allow inbound SSH for Konvoy."
@@ -164,8 +189,44 @@ resource "aws_security_group" "konvoy_egress" {
   tags = var.tags
 }
 
+resource "aws_security_group" "public_facing_instances" {
+  description = "Allow inbound http and https for public facing instances."
+  vpc_id      = aws_vpc.konvoy_vpc.id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = var.tags
+}
+
+
+resource "aws_security_group" "konvoy_control_plane" {
+  description = "Allow inbound 6443 for CP."
+  vpc_id      = aws_vpc.konvoy_vpc.id
+
+  ingress {
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = var.tags
+}
+
 resource "aws_instance" "control_plane" {
-  count                       = 3
+  count                       = var.controlplane_count
   vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id]
   subnet_id                   = aws_subnet.konvoy_public.id
   key_name                    = var.ssh_key_name
@@ -198,7 +259,7 @@ resource "aws_instance" "control_plane" {
 
 resource "aws_instance" "worker" {
   count                       = var.worker_count
-  vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id]
+  vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id, aws_security_group.public_facing_instances.id]
   subnet_id                   = aws_subnet.konvoy_public.id
   key_name                    = var.ssh_key_name
   ami                         = var.node_ami
@@ -228,13 +289,13 @@ resource "aws_instance" "worker" {
   }
 }
 
-resource "aws_instance" "extra_worker" {
-  count                       = var.extra_worker_count
+resource "aws_instance" "bastion_host" {
+  count                       = var.bastion_host_count
   vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id]
   subnet_id                   = aws_subnet.konvoy_public.id
   key_name                    = var.ssh_key_name
-  ami                         = var.node_ami
-  instance_type               = var.extra_worker_instance_type
+  ami                         = var.bastion_ami
+  instance_type               = var.bastion_instance_type
   availability_zone           = var.aws_availability_zones[0]
   source_dest_check           = "false"
   associate_public_ip_address = "true"
@@ -260,19 +321,38 @@ resource "aws_instance" "extra_worker" {
   }
 }
 
-resource "aws_security_group" "konvoy_control_plane" {
-  description = "Allow inbound SSH for Konvoy."
-  vpc_id      = aws_vpc.konvoy_vpc.id
-
-  ingress {
-    from_port   = 6443
-    to_port     = 6443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_instance" "registry_host" {
+  count                       = var.registry_host_count
+  vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id, aws_security_group.public_facing_instances.id]
+  subnet_id                   = aws_subnet.konvoy_public.id
+  key_name                    = var.ssh_key_name
+  ami                         = var.registry_ami
+  instance_type               = var.registry_instance_type
+  availability_zone           = var.aws_availability_zones[0]
+  source_dest_check           = "false"
+  associate_public_ip_address = "true"
 
   tags = var.tags
+
+  root_block_device {
+    volume_size = var.root_volume_size
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo ok"
+    ]
+
+    connection {
+      type = "ssh"
+      user = var.ssh_username
+      agent = true
+      host = self.public_dns
+      timeout = "15m"
+    }
+  }
 }
+
 
 resource "aws_elb" "konvoy_control_plane" {
   internal                  = false
@@ -318,6 +398,10 @@ output "worker_public_ips" {
   value = aws_instance.worker.*.public_ip
 }
 
-output "extra_worker_public_ips" {
-  value = aws_instance.extra_worker.*.public_ip
+output "bastion_public_ips" {
+  value = aws_instance.bastion_host.*.public_ip
+}
+
+output "registry_public_ips" {
+  value = aws_instance.registry_host.*.public_ip
 }

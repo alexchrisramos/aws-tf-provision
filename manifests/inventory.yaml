@@ -1,8 +1,13 @@
 all:
   vars:
-    ansible_user: centos
-  hosts:
-    35.89.118.219:
-    18.237.51.188:
-    54.244.154.143:
-    34.211.47.249:
+    ansible_user: ubuntu
+  children:
+    cluster:
+      hosts:
+        52.89.53.160:
+    bastion:
+      hosts:
+        34.223.247.186:
+    registry:
+      hosts:
+        18.237.225.188:

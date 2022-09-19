@@ -1,0 +1,19 @@
+bastion_public_ips = [
+  "34.223.247.186",
+]
+control_plane_public_ips = [
+  "52.89.53.160",
+  "54.200.88.55",
+  "54.189.92.163",
+]
+kube_apiserver_address = "tf-lb-20220916073747150300000005-1518712030.us-west-2.elb.amazonaws.com"
+registry_public_ips = [
+  "54.212.136.76",
+]
+vpc_cidr = "10.0.0.0/16"
+worker_public_ips = [
+  "35.92.129.64",
+  "34.211.60.126",
+  "54.218.102.107",
+  "35.90.158.10",
+]
