@@ -1,0 +1,136 @@
+2022-06-28T12:44:41.933+0800 [INFO]  provider: configuring client automatic mTLS
+2022-06-28T12:44:41.960+0800 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5]
+2022-06-28T12:44:41.982+0800 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 pid=2583
+2022-06-28T12:44:41.983+0800 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5
+2022-06-28T12:44:42.007+0800 [INFO]  provider.terraform-provider-aws_v4.15.1_x5: configuring server automatic mTLS: timestamp=2022-06-28T12:44:42.006+0800
+2022-06-28T12:44:42.060+0800 [DEBUG] provider: using plugin: version=5
+2022-06-28T12:44:42.060+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: plugin address: address=/var/folders/gz/ld8bcqmj625fhrzht59ch0x40000gq/T/plugin3018307073 network=unix timestamp=2022-06-28T12:44:42.060+0800
+2022-06-28T12:44:42.318+0800 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = transport is closing"
+2022-06-28T12:44:42.322+0800 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 pid=2583
+2022-06-28T12:44:42.322+0800 [DEBUG] provider: plugin exited
+2022-06-28T12:44:42.335+0800 [INFO]  provider: configuring client automatic mTLS
+2022-06-28T12:44:42.354+0800 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5]
+2022-06-28T12:44:42.373+0800 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 pid=2584
+2022-06-28T12:44:42.374+0800 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5
+2022-06-28T12:44:42.394+0800 [INFO]  provider.terraform-provider-aws_v4.15.1_x5: configuring server automatic mTLS: timestamp=2022-06-28T12:44:42.394+0800
+2022-06-28T12:44:42.441+0800 [DEBUG] provider: using plugin: version=5
+2022-06-28T12:44:42.441+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: plugin address: address=/var/folders/gz/ld8bcqmj625fhrzht59ch0x40000gq/T/plugin1143665549 network=unix timestamp=2022-06-28T12:44:42.441+0800
+2022-06-28T12:44:42.784+0800 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = transport is closing"
+2022-06-28T12:44:42.792+0800 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 pid=2584
+2022-06-28T12:44:42.792+0800 [DEBUG] provider: plugin exited
+2022-06-28T12:44:42.798+0800 [INFO]  provider: configuring client automatic mTLS
+2022-06-28T12:44:42.822+0800 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5]
+2022-06-28T12:44:42.848+0800 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 pid=2588
+2022-06-28T12:44:42.850+0800 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5
+2022-06-28T12:44:42.875+0800 [INFO]  provider.terraform-provider-aws_v4.15.1_x5: configuring server automatic mTLS: timestamp=2022-06-28T12:44:42.874+0800
+2022-06-28T12:44:42.924+0800 [DEBUG] provider: using plugin: version=5
+2022-06-28T12:44:42.924+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: plugin address: address=/var/folders/gz/ld8bcqmj625fhrzht59ch0x40000gq/T/plugin1126153142 network=unix timestamp=2022-06-28T12:44:42.923+0800
+2022-06-28T12:44:43.277+0800 [INFO]  provider.terraform-provider-aws_v4.15.1_x5: Retrieved credentials from "SharedConfigCredentials: /Users/alexchrisramos/.aws/credentials": timestamp=2022-06-28T12:44:43.277+0800
+2022-06-28T12:44:43.277+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: Trying to get account information via sts:GetCallerIdentity: timestamp=2022-06-28T12:44:43.277+0800
+2022-06-28T12:44:43.278+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: [aws-sdk-go-v2] Request
+POST / HTTP/1.1
+Host: sts.us-west-2.amazonaws.com
+User-Agent: APN/1.0 HashiCorp/1.0 Terraform/1.2.3 (+https://www.terraform.io) terraform-provider-aws/dev (+https://registry.terraform.io/providers/hashicorp/aws) aws-sdk-go-v2/1.16.3 os/macos lang/go/1.17.6 md/GOOS/darwin md/GOARCH/amd64 api/sts/1.16.4
+Content-Length: 43
+Amz-Sdk-Invocation-Id: 6d0e663f-0db3-41e3-a314-dcaddf363393
+Amz-Sdk-Request: attempt=1; max=25
+Authorization: AWS4-HMAC-SHA256 Credential=ASIAU5KDZ2ELRAWLUR5X/20220628/us-west-2/sts/aws4_request, SignedHeaders=amz-sdk-invocation-id;amz-sdk-request;content-length;content-type;host;x-amz-date;x-amz-security-token, Signature=9ac6103f4be424330ebe32e46f93a7dfe5013ad244efcd37afb3924bea509db5
+Content-Type: application/x-www-form-urlencoded
+X-Amz-Date: 20220628T044443Z
+X-Amz-Security-Token: FwoGZXIvYXdzEN7//////////wEaDNjeJJMFgOtGcH4ahyK7ARuy/zp3HMSNGZSKjUL2XLNev8rNGppXTrGdOtDO8eF3ntS/6KyD1xB86TfeH3gfFnkP9EMatGmqx3yiy9yq8A/5UrqKeKHR+wlvJG+xY3x45l/o53qGhlEqd34bzmB6c+5DqpmZaswcvjcNgvqM/UV3GdiTGAI95WOFv7YpuE8aOnqtos3mZkSSQt8GvFqnyS4FBrzan2ZrTJHKN2Eqzz2S0plBUzMirPjEeWoxR8YXI00hGddPtjRw7Rgo/YDqlQYyLaGU8FrHiMGaMETf03cGVSmUzRftw/QnfxVEqRFYAG6G2k3u1P7cutXebNRyyQ==
+Accept-Encoding: gzip
+
+Action=GetCallerIdentity&Version=2011-06-15: timestamp=2022-06-28T12:44:43.277+0800
+2022-06-28T12:44:44.966+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: [aws-sdk-go-v2] Response
+HTTP/1.1 200 OK
+Content-Length: 473
+Content-Type: text/xml
+Date: Tue, 28 Jun 2022 04:44:44 GMT
+X-Amzn-Requestid: ea72ce70-0bf9-492d-a56c-187ae503f528
+
+<GetCallerIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
+  <GetCallerIdentityResult>
+    <Arn>arn:aws:sts::337834004759:assumed-role/Mesosphere-PowerUser/achristopher.c@d2iq.com</Arn>
+    <UserId>AROAIL3YGDOHEPBF4W4IQ:achristopher.c@d2iq.com</UserId>
+    <Account>337834004759</Account>
+  </GetCallerIdentityResult>
+  <ResponseMetadata>
+    <RequestId>ea72ce70-0bf9-492d-a56c-187ae503f528</RequestId>
+  </ResponseMetadata>
+</GetCallerIdentityResponse>: timestamp=2022-06-28T12:44:44.966+0800
+2022-06-28T12:44:44.967+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: Trying to get account information via sts:GetCallerIdentity: timestamp=2022-06-28T12:44:44.967+0800
+2022-06-28T12:44:44.967+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: [aws-sdk-go-v2] Request
+POST / HTTP/1.1
+Host: sts.us-west-2.amazonaws.com
+User-Agent: APN/1.0 HashiCorp/1.0 Terraform/1.2.3 (+https://www.terraform.io) terraform-provider-aws/dev (+https://registry.terraform.io/providers/hashicorp/aws) aws-sdk-go-v2/1.16.3 os/macos lang/go/1.17.6 md/GOOS/darwin md/GOARCH/amd64 api/sts/1.16.4
+Content-Length: 43
+Amz-Sdk-Invocation-Id: 16d60100-d2dc-42d2-a8f6-604f4e1e1ba7
+Amz-Sdk-Request: attempt=1; max=25
+Authorization: AWS4-HMAC-SHA256 Credential=ASIAU5KDZ2ELRAWLUR5X/20220628/us-west-2/sts/aws4_request, SignedHeaders=amz-sdk-invocation-id;amz-sdk-request;content-length;content-type;host;x-amz-date;x-amz-security-token, Signature=4fcaa884ef2465eacfbd201a50a68cdc05dc0546716e11b63009f3633427c916
+Content-Type: application/x-www-form-urlencoded
+X-Amz-Date: 20220628T044444Z
+X-Amz-Security-Token: FwoGZXIvYXdzEN7//////////wEaDNjeJJMFgOtGcH4ahyK7ARuy/zp3HMSNGZSKjUL2XLNev8rNGppXTrGdOtDO8eF3ntS/6KyD1xB86TfeH3gfFnkP9EMatGmqx3yiy9yq8A/5UrqKeKHR+wlvJG+xY3x45l/o53qGhlEqd34bzmB6c+5DqpmZaswcvjcNgvqM/UV3GdiTGAI95WOFv7YpuE8aOnqtos3mZkSSQt8GvFqnyS4FBrzan2ZrTJHKN2Eqzz2S0plBUzMirPjEeWoxR8YXI00hGddPtjRw7Rgo/YDqlQYyLaGU8FrHiMGaMETf03cGVSmUzRftw/QnfxVEqRFYAG6G2k3u1P7cutXebNRyyQ==
+Accept-Encoding: gzip
+
+Action=GetCallerIdentity&Version=2011-06-15: timestamp=2022-06-28T12:44:44.967+0800
+2022-06-28T12:44:45.202+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: [aws-sdk-go-v2] Response
+HTTP/1.1 200 OK
+Content-Length: 473
+Content-Type: text/xml
+Date: Tue, 28 Jun 2022 04:44:45 GMT
+X-Amzn-Requestid: bf523bf7-45c8-46f7-9f6d-7cc35953798d
+
+<GetCallerIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
+  <GetCallerIdentityResult>
+    <Arn>arn:aws:sts::337834004759:assumed-role/Mesosphere-PowerUser/achristopher.c@d2iq.com</Arn>
+    <UserId>AROAIL3YGDOHEPBF4W4IQ:achristopher.c@d2iq.com</UserId>
+    <Account>337834004759</Account>
+  </GetCallerIdentityResult>
+  <ResponseMetadata>
+    <RequestId>bf523bf7-45c8-46f7-9f6d-7cc35953798d</RequestId>
+  </ResponseMetadata>
+</GetCallerIdentityResponse>: timestamp=2022-06-28T12:44:45.202+0800
+2022-06-28T12:44:45.208+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: [aws-sdk-go] DEBUG: Request ec2/DescribeAccountAttributes Details:
+---[ REQUEST POST-SIGN ]-----------------------------
+POST / HTTP/1.1
+Host: ec2.us-west-2.amazonaws.com
+User-Agent: APN/1.0 HashiCorp/1.0 Terraform/1.2.3 (+https://www.terraform.io) terraform-provider-aws/dev (+https://registry.terraform.io/providers/hashicorp/aws) aws-sdk-go/1.44.15 (go1.17.6; darwin; amd64)
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=ASIAU5KDZ2ELRAWLUR5X/20220628/us-west-2/ec2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-security-token, Signature=c7f382229f2d129f973ba6372a676b2c0bb4b370264d60a4137667183fa437a9
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+X-Amz-Date: 20220628T044445Z
+X-Amz-Security-Token: FwoGZXIvYXdzEN7//////////wEaDNjeJJMFgOtGcH4ahyK7ARuy/zp3HMSNGZSKjUL2XLNev8rNGppXTrGdOtDO8eF3ntS/6KyD1xB86TfeH3gfFnkP9EMatGmqx3yiy9yq8A/5UrqKeKHR+wlvJG+xY3x45l/o53qGhlEqd34bzmB6c+5DqpmZaswcvjcNgvqM/UV3GdiTGAI95WOFv7YpuE8aOnqtos3mZkSSQt8GvFqnyS4FBrzan2ZrTJHKN2Eqzz2S0plBUzMirPjEeWoxR8YXI00hGddPtjRw7Rgo/YDqlQYyLaGU8FrHiMGaMETf03cGVSmUzRftw/QnfxVEqRFYAG6G2k3u1P7cutXebNRyyQ==
+Accept-Encoding: gzip
+
+Action=DescribeAccountAttributes&AttributeName.1=supported-platforms&Version=2016-11-15
+-----------------------------------------------------: timestamp=2022-06-28T12:44:45.207+0800
+2022-06-28T12:44:46.705+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: [aws-sdk-go] DEBUG: Response ec2/DescribeAccountAttributes Details:
+---[ RESPONSE ]--------------------------------------
+HTTP/1.1 200 OK
+Content-Length: 540
+Cache-Control: no-cache, no-store
+Content-Type: text/xml;charset=UTF-8
+Date: Tue, 28 Jun 2022 04:44:46 GMT
+Server: AmazonEC2
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Amzn-Requestid: bcecbcf7-9718-4e92-b2f1-41c9d55369bb
+
+
+-----------------------------------------------------: timestamp=2022-06-28T12:44:46.705+0800
+2022-06-28T12:44:46.705+0800 [DEBUG] provider.terraform-provider-aws_v4.15.1_x5: [aws-sdk-go] <?xml version="1.0" encoding="UTF-8"?>
+<DescribeAccountAttributesResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15/">
+    <requestId>bcecbcf7-9718-4e92-b2f1-41c9d55369bb</requestId>
+    <accountAttributeSet>
+        <item>
+            <attributeName>supported-platforms</attributeName>
+            <attributeValueSet>
+                <item>
+                    <attributeValue>VPC</attributeValue>
+                </item>
+            </attributeValueSet>
+        </item>
+    </accountAttributeSet>
+</DescribeAccountAttributesResponse>: timestamp=2022-06-28T12:44:46.705+0800
+2022-06-28T12:44:46.767+0800 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = transport is closing"
+2022-06-28T12:44:46.774+0800 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/aws/4.15.1/darwin_amd64/terraform-provider-aws_v4.15.1_x5 pid=2588
+2022-06-28T12:44:46.775+0800 [DEBUG] provider: plugin exited
