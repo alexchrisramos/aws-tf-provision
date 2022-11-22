@@ -4,10 +4,8 @@ all:
   children:
     cluster:
       hosts:
-        52.89.53.160:
     bastion:
       hosts:
-        34.223.247.186:
     registry:
       hosts:
-        18.237.225.188:
+        34.211.36.195:
