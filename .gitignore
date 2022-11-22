@@ -1,1 +1,6 @@
 /infra/.terraform/*
+*.pem
+*.crt
+terraform.tfstate
+output.txt
+logs.txt
