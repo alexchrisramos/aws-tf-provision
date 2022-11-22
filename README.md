@@ -2,7 +2,8 @@
 
 # Set the TF variables
 ```
-export TF_VAR_tags='{"owner":'\"$(whoami)\"',"expiration":"16h"}'
+export TF_VAR_tags='{"owner":'\"$(whoami)\"',"expiration":"4h"}'
+export TF_VAR_controlplane_count=3
 export TF_VAR_worker_count=4
 export TF_VAR_bastion_host_count=1
 export TF_VAR_registry_host_count=1
@@ -14,6 +15,8 @@ export TF_VAR_ssh_username=ubuntu
 export TF_VAR_worker_instance_type=m5.2xlarge
 export TF_VAR_root_volume_size=80
 export mykeypair=alex-keypair.pem
+export TF_VAR_control_plane_instance_type=m5.2xlarge
+export TF_VAR_is_airgap=false
 ```
 
 # set ssh agent
