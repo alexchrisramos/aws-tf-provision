@@ -21,6 +21,13 @@ variable "ssh_key_name" {
   description = "The SSH key pair to use for the public instance"
 }
 
+variable "is_airgap" {
+  description = "Will the cluster be airgapped or not - True or False"
+  type        = bool
+  default     = false
+}
+
+
 variable "tags" {
   description = "Map of tags to add to all resources"
   type        = map
@@ -97,7 +104,12 @@ variable "ssh_username" {
 }
 
 locals {
-  public_subnet_range        = var.vpc_cidr
+  public_subnet_range         = var.vpc_cidr
+  public_ip                   = var.is_airgap ? "false" : "true"
+  controlplane_count          = var.is_airgap ? 0 : var.controlplane_count
+  worker_count                = var.is_airgap ? 0 : var.worker_count
+  controlplane_airgap_count   = var.is_airgap ? var.controlplane_count : 0
+  worker_airgap_count         = var.is_airgap ? var.worker_count : 0
 }
 
 
@@ -226,7 +238,7 @@ resource "aws_security_group" "konvoy_control_plane" {
 }
 
 resource "aws_instance" "control_plane" {
-  count                       = var.controlplane_count
+  count                       = local.controlplane_count
   vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id]
   subnet_id                   = aws_subnet.konvoy_public.id
   key_name                    = var.ssh_key_name
@@ -234,7 +246,7 @@ resource "aws_instance" "control_plane" {
   instance_type               = var.control_plane_instance_type
   availability_zone           = var.aws_availability_zones[0]
   source_dest_check           = "false"
-  associate_public_ip_address = "true"
+  associate_public_ip_address = local.public_ip
 
   tags = var.tags
 
@@ -257,8 +269,40 @@ resource "aws_instance" "control_plane" {
   }
 }
 
+resource "aws_instance" "control_plane_airgap" {
+  count                       = local.controlplane_airgap_count
+  vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id]
+  subnet_id                   = aws_subnet.konvoy_public.id
+  key_name                    = var.ssh_key_name
+  ami                         = var.node_ami
+  instance_type               = var.control_plane_instance_type
+  availability_zone           = var.aws_availability_zones[0]
+  source_dest_check           = "false"
+  associate_public_ip_address = local.public_ip
+
+  tags = var.tags
+
+  root_block_device {
+    volume_size = var.root_volume_size
+  }
+
+  /*provisioner "remote-exec" {
+    inline = [
+      "Skipping ssh test since airgap is enabled"
+    ]
+
+    connection {
+      type = "ssh"
+      user = var.ssh_username
+      agent = true
+      host = self.public_dns
+      timeout = "15m"
+    }
+  }*/
+}
+
 resource "aws_instance" "worker" {
-  count                       = var.worker_count
+  count                       = local.worker_count
   vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id, aws_security_group.public_facing_instances.id]
   subnet_id                   = aws_subnet.konvoy_public.id
   key_name                    = var.ssh_key_name
@@ -266,7 +310,7 @@ resource "aws_instance" "worker" {
   instance_type               = var.worker_instance_type
   availability_zone           = var.aws_availability_zones[0]
   source_dest_check           = "false"
-  associate_public_ip_address = "true"
+  associate_public_ip_address = local.public_ip
 
   tags = var.tags
 
@@ -287,6 +331,38 @@ resource "aws_instance" "worker" {
       timeout = "15m"
     }
   }
+}
+
+resource "aws_instance" "worker_airgap" {
+  count                       = local.worker_airgap_count
+  vpc_security_group_ids      = [aws_security_group.konvoy_ssh.id, aws_security_group.konvoy_private.id, aws_security_group.konvoy_egress.id, aws_security_group.public_facing_instances.id]
+  subnet_id                   = aws_subnet.konvoy_public.id
+  key_name                    = var.ssh_key_name
+  ami                         = var.node_ami
+  instance_type               = var.worker_instance_type
+  availability_zone           = var.aws_availability_zones[0]
+  source_dest_check           = "false"
+  associate_public_ip_address = local.public_ip
+
+  tags = var.tags
+
+  root_block_device {
+    volume_size = var.root_volume_size
+  }
+
+  /*provisioner "remote-exec" {
+    inline = [
+      "Skipping ssh test since airgap is enabled"
+    ]
+
+    connection {
+      type = "ssh"
+      user = var.ssh_username
+      agent = true
+      host = self.public_dns
+      timeout = "15m"
+    }
+  }*/
 }
 
 resource "aws_instance" "bastion_host" {
@@ -393,9 +469,16 @@ output "kube_apiserver_address" {
 output "control_plane_public_ips" {
   value = aws_instance.control_plane.*.public_ip
 }
+output "control_plane_airgap_private_ips"{
+  value = aws_instance.control_plane_airgap.*.private_ip
+}
 
 output "worker_public_ips" {
   value = aws_instance.worker.*.public_ip
+}
+
+output "worker_airgap_private_ips"{
+  value = aws_instance.worker_airgap.*.private_ip
 }
 
 output "bastion_public_ips" {
