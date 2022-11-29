@@ -118,13 +118,23 @@ resource "aws_vpc" "konvoy_vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-vpc-${var.tags.owner}"
+    }
+  )
 }
 
 resource "aws_internet_gateway" "konvoy_gateway" {
   vpc_id = aws_vpc.konvoy_vpc.id
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-igw-${var.tags.owner}"
+    }
+  )
 }
 
 resource "aws_subnet" "konvoy_public" {
@@ -133,7 +143,12 @@ resource "aws_subnet" "konvoy_public" {
   map_public_ip_on_launch = true
   availability_zone       = var.aws_availability_zones[0]
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-public-subnet-${var.tags.owner}"
+    }
+  )
 }
 
   resource "aws_route_table" "konvoy_public_rt" {
@@ -144,7 +159,12 @@ resource "aws_subnet" "konvoy_public" {
       gateway_id = aws_internet_gateway.konvoy_gateway.id
     }
 
-    tags = var.tags
+    tags = merge(
+      var.tags,
+      {
+        Name = "Terraform-public-subnet-route-${var.tags.owner}"
+      }
+    )
   }
 
   resource "aws_route_table_association" "konvoy_public_rta" {
@@ -163,7 +183,12 @@ resource "aws_security_group" "konvoy_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-sg-ssh-${var.tags.owner}"
+    }
+  )
 }
 
 resource "aws_security_group" "konvoy_private" {
@@ -184,7 +209,12 @@ resource "aws_security_group" "konvoy_private" {
     self      = true
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-sg-allow-internal-comm-${var.tags.owner}"
+    }
+  )
 }
 
 resource "aws_security_group" "konvoy_egress" {
@@ -198,7 +228,12 @@ resource "aws_security_group" "konvoy_egress" {
     cidr_blocks = [var.egress_cidr]
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-sg-allow-egress-${var.tags.owner}"
+    }
+  )
 }
 
 resource "aws_security_group" "public_facing_instances" {
@@ -219,7 +254,12 @@ resource "aws_security_group" "public_facing_instances" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-allow-http-https-${var.tags.owner}"
+    }
+  )
 }
 
 
@@ -234,7 +274,12 @@ resource "aws_security_group" "konvoy_control_plane" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-sg-allow-6334-to-apiserver-${var.tags.owner}"
+    }
+  )
 }
 
 resource "aws_instance" "control_plane" {
@@ -248,7 +293,12 @@ resource "aws_instance" "control_plane" {
   source_dest_check           = "false"
   associate_public_ip_address = local.public_ip
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-ControlPlane-${var.tags.owner}${count.index + 1}"
+    }
+  )
 
   root_block_device {
     volume_size = var.root_volume_size
@@ -280,7 +330,12 @@ resource "aws_instance" "control_plane_airgap" {
   source_dest_check           = "false"
   associate_public_ip_address = local.public_ip
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-ControlPlane-${var.tags.owner}${count.index + 1}"
+    }
+  )
 
   root_block_device {
     volume_size = var.root_volume_size
@@ -312,7 +367,12 @@ resource "aws_instance" "worker" {
   source_dest_check           = "false"
   associate_public_ip_address = local.public_ip
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-worker-${var.tags.owner}${count.index + 1}"
+    }
+  )
 
   root_block_device {
     volume_size = var.root_volume_size
@@ -344,7 +404,12 @@ resource "aws_instance" "worker_airgap" {
   source_dest_check           = "false"
   associate_public_ip_address = local.public_ip
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-worker-${var.tags.owner}${count.index + 1}"
+    }
+  )
 
   root_block_device {
     volume_size = var.root_volume_size
@@ -376,7 +441,12 @@ resource "aws_instance" "bastion_host" {
   source_dest_check           = "false"
   associate_public_ip_address = "true"
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-bastion-${var.tags.owner}${count.index + 1}"
+    }
+  )
 
   root_block_device {
     volume_size = var.root_volume_size
@@ -408,7 +478,12 @@ resource "aws_instance" "registry_host" {
   source_dest_check           = "false"
   associate_public_ip_address = "true"
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-registry-${var.tags.owner}${count.index + 1}"
+    }
+  )
 
   root_block_device {
     volume_size = var.root_volume_size
@@ -455,7 +530,12 @@ resource "aws_elb" "konvoy_control_plane" {
 
   instances = aws_instance.control_plane.*.id
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "Terraform-k8s-apiserver-lb-${var.tags.owner}"
+    }
+  )
 }
 
 
