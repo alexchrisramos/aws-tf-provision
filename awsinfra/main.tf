@@ -458,6 +458,34 @@ resource "aws_elb" "konvoy_control_plane" {
   tags = var.tags
 }
 
+
+  resource "local_file" "ansible_inventory" {
+    filename = "../ansible/inventory.ini"
+    content = <<EOT
+[bastion]
+%{ for bastion_ip in aws_instance.bastion_host.*.public_ip ~}
+${bastion_ip}
+%{ endfor ~}
+[registry]
+%{ for registry_ip in aws_instance.registry_host.*.public_ip ~}
+${registry_ip}
+%{ endfor ~}
+[cluster]
+%{ for cp_ip in aws_instance.control_plane.*.public_ip ~}
+${cp_ip}
+%{ endfor ~}
+%{ for cpag_ip in aws_instance.control_plane_airgap.*.private_ip ~}
+${cpag_ip}
+%{ endfor ~}
+%{ for worker_ip in aws_instance.worker.*.public_ip ~}
+${worker_ip}
+%{ endfor ~}
+%{ for workerag_ip in aws_instance.worker_airgap.*.private_ip}
+${workerag_ip}
+%{ endfor ~}
+EOT
+  }
+
 output "vpc_cidr" {
   value = aws_vpc.konvoy_vpc.cidr_block
 }
@@ -485,6 +513,14 @@ output "bastion_public_ips" {
   value = aws_instance.bastion_host.*.public_ip
 }
 
+output "bastion_private_ips" {
+  value = aws_instance.bastion_host.*.private_ip
+}
+
 output "registry_public_ips" {
   value = aws_instance.registry_host.*.public_ip
+}
+
+output "registry_private_ips" {
+  value = aws_instance.registry_host.*.private_ip
 }

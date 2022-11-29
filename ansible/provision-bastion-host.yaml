@@ -47,9 +47,21 @@
       name: '{{ user }}'
       groups: docker
       append: yes
+  - name: install letsencrypt certbot
+    community.general.snap:
+      name: certbot
+      classic: true
   - name: upload keyfile from local to remote host
     copy:
       src: '{{ keyfile }}'
       dest: ./
       owner: '{{ user }}'
       mode: 0400
+  - name: download dkp binary
+    ansible.builtin.get_url:
+      url: https://downloads.d2iq.com/dkp/v2.3.1/dkp_v2.3.1_linux_amd64.tar.gz
+      dest: ./
+  - name: download dkp binary
+    ansible.builtin.get_url:
+      url: https://downloads.d2iq.com/dkp/v2.4.0/dkp_v2.4.0_linux_amd64.tar.gz
+      dest: ./

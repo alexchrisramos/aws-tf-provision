@@ -1,4 +1,7 @@
 /infra/.terraform/*
+/awsinfra/.terraform/*
+awsinfra/terraform.tfstate
+awsinfra/terraform.tfstate.backup
 *.pem
 *.crt
 terraform.tfstate
