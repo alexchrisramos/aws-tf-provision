@@ -1,0 +1,32 @@
+---
+- hosts: cluster
+  gather_facts: yes
+  become: no
+  vars:
+    directory_name: "volume"
+    mounts: 5
+
+  tasks:
+  - name: create path directories
+    become: yes
+    file:
+      state: directory
+      path: "/mnt/disks/{{ directory_name }}-{{ '%02d'|format(item|int) }}"
+    with_sequence: start={{ 0 }}  end={{ mounts - 1 }}
+
+  - name: create source directories
+    become: yes
+    file:
+      state: directory
+      path: "/{{ directory_name }}-{{ '%02d'|format(item|int) }}"
+    with_sequence: start={{ 0 }}  end={{ mounts - 1 }}
+
+  - name: mount source directories
+    become: yes
+    mount:
+      path: "/mnt/disks/{{ directory_name }}-{{ '%02d'|format(item|int) }}"
+      src: "/{{ directory_name }}-{{ '%02d'|format(item|int) }}"
+      opts: bind
+      state: mounted
+      fstype: none
+    with_sequence: start={{ 0 }}  end={{ mounts - 1 }}
