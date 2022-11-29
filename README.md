@@ -16,7 +16,7 @@ export TF_VAR_worker_instance_type=m5.2xlarge
 export TF_VAR_root_volume_size=80
 export mykeypair=alex-keypair.pem
 export TF_VAR_control_plane_instance_type=m5.2xlarge
-export TF_VAR_is_airgap=false
+export TF_VAR_is_airgap=true
 ```
 
 # set ssh agent
@@ -35,15 +35,15 @@ terraform -chdir=infra/ apply -auto-approve
 # Update manifests/inventory.yaml
 # execute ansible playbook to provision cluster hosts with mount volumes
 ```
-ansible-playbook manifests/provision-cluster-hosts.yaml -i manifests/inventory.yaml --private-key ${mykeypair} --ssh-common-args='-o StrictHostKeyChecking=no'
+ansible-playbook ansible/provision-cluster-hosts.yaml -i ansible/inventory.ini -u ${TF_VAR_ssh_username} --private-key ${mykeypair} --ssh-common-args='-o StrictHostKeyChecking=no'
 ```
 
 # execute ansible playbook to provision bastion
 ```
-ansible-playbook manifests/provision-bastion-host.yaml -i manifests/inventory.yaml --private-key ${mykeypair} --ssh-common-args='-o StrictHostKeyChecking=no'
+ansible-playbook ansible/provision-bastion-host.yaml -i ansible/inventory.ini -u ${TF_VAR_ssh_username} --private-key ${mykeypair} --ssh-common-args='-o StrictHostKeyChecking=no'
 ```
 
 # execute ansible playbook to provision registry
 ```
-ansible-playbook manifests/provision-registry-host.yaml -i manifests/inventory.yaml --private-key ${mykeypair} --ssh-common-args='-o StrictHostKeyChecking=no'
+ansible-playbook ansible/provision-registry-host.yaml -i ansible/inventory.ini -u ${TF_VAR_ssh_username} --private-key ${mykeypair} --ssh-common-args='-o StrictHostKeyChecking=no'
 ```
