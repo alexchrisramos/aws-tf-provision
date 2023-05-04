@@ -303,20 +303,6 @@ resource "aws_instance" "control_plane" {
   root_block_device {
     volume_size = var.root_volume_size
   }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ok"
-    ]
-
-    connection {
-      type = "ssh"
-      user = var.ssh_username
-      agent = true
-      host = self.public_dns
-      timeout = "15m"
-    }
-  }
 }
 
 resource "aws_instance" "control_plane_airgap" {
@@ -340,20 +326,6 @@ resource "aws_instance" "control_plane_airgap" {
   root_block_device {
     volume_size = var.root_volume_size
   }
-
-  /*provisioner "remote-exec" {
-    inline = [
-      "Skipping ssh test since airgap is enabled"
-    ]
-
-    connection {
-      type = "ssh"
-      user = var.ssh_username
-      agent = true
-      host = self.public_dns
-      timeout = "15m"
-    }
-  }*/
 }
 
 resource "aws_instance" "worker" {
@@ -376,20 +348,6 @@ resource "aws_instance" "worker" {
 
   root_block_device {
     volume_size = var.root_volume_size
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ok"
-    ]
-
-    connection {
-      type = "ssh"
-      user = var.ssh_username
-      agent = true
-      host = self.public_dns
-      timeout = "15m"
-    }
   }
 }
 
@@ -414,20 +372,6 @@ resource "aws_instance" "worker_airgap" {
   root_block_device {
     volume_size = var.root_volume_size
   }
-
-  /*provisioner "remote-exec" {
-    inline = [
-      "Skipping ssh test since airgap is enabled"
-    ]
-
-    connection {
-      type = "ssh"
-      user = var.ssh_username
-      agent = true
-      host = self.public_dns
-      timeout = "15m"
-    }
-  }*/
 }
 
 resource "aws_instance" "bastion_host" {
@@ -451,20 +395,6 @@ resource "aws_instance" "bastion_host" {
   root_block_device {
     volume_size = var.root_volume_size
   }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ok"
-    ]
-
-    connection {
-      type = "ssh"
-      user = var.ssh_username
-      agent = true
-      host = self.public_dns
-      timeout = "15m"
-    }
-  }
 }
 
 resource "aws_instance" "registry_host" {
@@ -487,20 +417,6 @@ resource "aws_instance" "registry_host" {
 
   root_block_device {
     volume_size = var.root_volume_size
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ok"
-    ]
-
-    connection {
-      type = "ssh"
-      user = var.ssh_username
-      agent = true
-      host = self.public_dns
-      timeout = "15m"
-    }
   }
 }
 
