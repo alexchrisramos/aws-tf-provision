@@ -359,7 +359,7 @@ resource "aws_elb" "konvoy_control_plane" {
 
 
   resource "local_file" "ansible_inventory" {
-    filename = "../ansible/inventory.ini"
+    filename = "ansible/inventory.ini"
     content = <<EOT
 [bastion]
 %{ for bastion_ip in aws_instance.bastion_host.*.public_ip ~}
